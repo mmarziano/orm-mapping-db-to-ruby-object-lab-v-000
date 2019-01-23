@@ -50,26 +50,40 @@ class Student
   end 
   
   def self.find_by_name(student)
-      sql = <<-SQL
-        SELECT * FROM students 
-        WHERE name = ? 
-        LIMIT 1 
-      SQL 
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE name = ?
+    SQL
     
       DB[:conn].execute(sql, student).map do |row|
-          self.new_from_db(row)
-      end 
-  end 
+         self.new_from_db(row)
+      end.first
+      
+  end
   
   def self.all
 
   end
   
   def self.all_students_in_grade_9
-    
+    sql = <<-SQL
+      SELECT * 
+      FROM students
+      WHERE grade = ? 
+    SQL
+  
+    DB[:conn].execute(sql,9)
   end 
   
   def self.students_below_12th_grade
+    sql = <<-SQL
+      SELECT * 
+      FROM students
+      WHERE grade < 12
+    SQL
+  
+    DB[:conn].execute(sql)
     
   end 
   
